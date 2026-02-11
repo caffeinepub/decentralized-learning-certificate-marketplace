@@ -1,0 +1,177 @@
+{
+  "kind": "build_request",
+  "title": "Decentralized Learning Certificate Marketplace (Skill NFTs, Employer Verification, Portfolio Wallet)",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement Internet Identity sign-in and role-aware navigation for two user types: Students (who earn/manage skill badges) and Employers (who verify student badges).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Decentralized Learning Certificate Marketplace... Features: Skill NFTs, Employer verification, Portfolio wallet"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can sign in using Internet Identity.",
+        "UI clearly offers entry points for Student and Employer flows after sign-in (e.g., tabs/pages), without requiring separate auth providers.",
+        "All user-facing text is in English."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create backend data model and stable storage for on-chain skill badges (\"Skill NFTs\") issued to students, including: badge id, owner (Principal), skill name, issuer Principal, issue timestamp, optional metadata (description, level), and a verification status derived from stored data.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Students earn skill badges stored on blockchain.",
+          "Skill NFTs"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Badges are stored persistently in the single Motoko actor (survive canister upgrades using stable variables or upgrade hooks).",
+        "Each badge is uniquely identifiable and linked to an owner Principal.",
+        "Backend exposes query methods to list badges by owner and to fetch a badge by id."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Add backend methods to issue (mint) a new skill badge to a student and to manage issuer permissions (who is allowed to mint), with safe defaults suitable for an MVP (e.g., canister controller/admin is initial issuer).",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Students earn skill badges stored on blockchain.",
+          "Skill NFTs"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Only authorized issuer(s) can mint new badges; unauthorized calls are rejected with a clear error.",
+        "Minting a badge records issuer Principal and issue timestamp.",
+        "A student can receive multiple badges; minting does not overwrite existing ones."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Build the Student Portfolio Wallet UI that allows a signed-in student to view, filter, and open details for their skill badges, and to share a verification link or code that employers can use to verify authenticity.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Portfolio wallet",
+          "Employer verification"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Student can see a list/grid of their badges loaded from the canister.",
+        "Student can open a badge detail view showing all stored metadata (skill name, issuer, issue time, id).",
+        "UI provides a shareable verification artifact (e.g., badge id and/or a copyable link containing the badge id) that an employer can use to verify."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement Employer Verification flow: a public/employer-accessible page where an employer can input a badge id (or open a shared link) and retrieve verification results from the canister, including whether the badge exists, its issuer, owner, and issuance timestamp.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Employer verification flow to validate authenticity of student skill certificates/NFTs"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Employer can verify by entering a badge id and submitting.",
+        "If badge id is valid, the page displays verification details (exists, issuer Principal, owner Principal, issue timestamp, skill name).",
+        "If badge id is invalid/not found, the page shows a clear not-found state.",
+        "Verification uses only canister data (no external APIs)."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Add a simple admin/issuer UI (accessible only to authorized issuers) to mint a skill badge to a specified student Principal, including form validation and success/error feedback.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Students earn skill badges stored on blockchain.",
+          "Skill NFTs"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Issuer can input student Principal and badge fields (skill name, optional description/level) and mint successfully.",
+        "Unauthorized users cannot access mint UI and/or mint attempts fail with a clear error message.",
+        "After minting, the badge appears in the target student’s portfolio list when they load/refresh."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Apply a coherent visual theme for the app (distinct style, consistent typography, spacing, and components) appropriate for an education + credential marketplace; avoid blue/purple as primary brand colors.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Decentralized Learning Certificate Marketplace"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All primary pages (Student Portfolio, Badge Detail, Employer Verification, Issuer Mint) share a consistent layout and component styling.",
+        "Primary color palette does not use blue/purple as the main brand colors.",
+        "UI uses Tailwind + existing UI components via composition (no edits to immutable UI component sources)."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Generate and include static image assets for badge visuals and a simple app mark, store them under frontend/public/assets/generated, and use them in the UI (e.g., badge thumbnails and app header).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Skill badges"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images exist at frontend/public/assets/generated and are referenced directly by the frontend (not served from the backend).",
+        "Badge list shows a thumbnail/icon for each badge type (or a default badge image if no mapping).",
+        "App header/landing includes the generated app mark/logo."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor with all logic in backend/main.mo (no additional backend services).",
+    "Use Internet Identity only for authentication (no third-party auth).",
+    "Do not modify files under frontend/src/components/ui or other immutablePaths; compose them from application code instead.",
+    "No external databases or third-party APIs for verification; all verification must come from canister state.",
+    "All user-facing text must be in English."
+  ],
+  "nonGoals": [
+    "Implementing a full ICRC-7/ICRC NFT standard or marketplace trading mechanics (buy/sell/auctions/royalties).",
+    "Integrating external learning platforms (Coursera, Udemy, etc.) or importing certificates from third parties.",
+    "Real-time features (live chat, websockets) or push/email notifications.",
+    "AI/ML model hosting or inference features (the app may be themed for AI/ML skills but will not run models)."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimal app mark/logo, academic + blockchain motif, flat vector style (app-mark.dim_512x512.png)",
+      "Set of 6 flat vector badge icons (e.g., chip, network, database, shield, brain, code) with consistent style and transparent background (badge-icons-set.dim_1024x1024.png)",
+      "Single generic badge card background texture/pattern, subtle, warm neutral palette (badge-card-bg.dim_1600x900.png)"
+    ],
+    "edits": []
+  }
+}

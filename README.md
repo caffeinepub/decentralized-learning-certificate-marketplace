@@ -1,2 +1,3 @@
-# decentralized-learning-certificate-marketplace
-Exported from Caffeine project: Decentralized Learning Certificate Marketplace
+## Decentralized Learning Certificate Marketplace
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

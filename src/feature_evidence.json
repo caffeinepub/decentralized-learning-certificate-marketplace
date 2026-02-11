@@ -1,0 +1,138 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-internet-identity-sign-in-and-role-aware-navigation-for-two-user-types-students-who-earn-manage-skill-badges-and-employers-who-verify-student-badges",
+      "featureTitle": "Implement Internet Identity sign-in and role-aware navigation for two user types: Students (who earn/manage skill badges) and Employers (who verify student badges).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/LoginButton.tsx",
+        "frontend/src/components/auth/ProfileSetupModal.tsx",
+        "frontend/src/components/layout/AppHeader.tsx",
+        "frontend/src/hooks/useCurrentUser.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-the-student-portfolio-wallet-ui-that-allows-a-signed-in-student-to-view-filter-and-open-details-for-their-skill-badges-and-to-share-a-verification-link-or-code-that-employers-can-use-to-verify-authenticity",
+      "featureTitle": "Build the Student Portfolio Wallet UI that allows a signed-in student to view, filter, and open details for their skill badges, and to share a verification link or code that employers can use to verify authenticity.",
+      "files": [
+        "frontend/src/components/badges/BadgeCard.tsx",
+        "frontend/src/hooks/useBadges.ts",
+        "frontend/src/pages/BadgeDetailPage.tsx",
+        "frontend/src/pages/StudentPortfolioPage.tsx",
+        "frontend/src/utils/format.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-employer-verification-flow-a-public-employer-accessible-page-where-an-employer-can-input-a-badge-id-or-open-a-shared-link-and-retrieve-verification-results-from-the-canister-including-whether-the-badge-exists-its-issuer-owner-and-issuance-timestamp",
+      "featureTitle": "Implement Employer Verification flow: a public/employer-accessible page where an employer can input a badge id (or open a shared link) and retrieve verification results from the canister, including whether the badge exists, its issuer, owner, and issuance timestamp.",
+      "files": [
+        "frontend/src/hooks/useVerifyBadge.ts",
+        "frontend/src/pages/EmployerVerificationPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-simple-admin-issuer-ui-accessible-only-to-authorized-issuers-to-mint-a-skill-badge-to-a-specified-student-principal-including-form-validation-and-success-error-feedback",
+      "featureTitle": "Add a simple admin/issuer UI (accessible only to authorized issuers) to mint a skill badge to a specified student Principal, including form validation and success/error feedback.",
+      "files": [
+        "frontend/src/components/auth/AccessDeniedScreen.tsx",
+        "frontend/src/hooks/useIssueBadge.ts",
+        "frontend/src/pages/IssuerMintPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-coherent-visual-theme-for-the-app-distinct-style-consistent-typography-spacing-and-components-appropriate-for-an-education-credential-marketplace-avoid-blue-purple-as-primary-brand-colors",
+      "featureTitle": "Apply a coherent visual theme for the app (distinct style, consistent typography, spacing, and components) appropriate for an education + credential marketplace; avoid blue/purple as primary brand colors.",
+      "files": [
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/index.css",
+        "frontend/src/pages/BadgeDetailPage.tsx",
+        "frontend/src/pages/EmployerVerificationPage.tsx",
+        "frontend/src/pages/IssuerMintPage.tsx",
+        "frontend/src/pages/StudentPortfolioPage.tsx",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-generate-and-include-static-image-assets-for-badge-visuals-and-a-simple-app-mark-store-them-under-frontend-public-assets-generated-and-use-them-in-the-ui-e-g-badge-thumbnails-and-app-header",
+      "featureTitle": "Generate and include static image assets for badge visuals and a simple app mark, store them under frontend/public/assets/generated, and use them in the UI (e.g., badge thumbnails and app header).",
+      "files": [
+        "frontend/src/components/badges/BadgeCard.tsx",
+        "frontend/src/components/layout/AppHeader.tsx",
+        "frontend/src/pages/BadgeDetailPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

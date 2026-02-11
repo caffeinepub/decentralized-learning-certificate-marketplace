@@ -1,0 +1,21 @@
+{
+  "frontend/src/index.css": "Global styles with warm neutral + green/amber OKLCH color system for education theme, avoiding blue/purple primaries; includes light and dark mode tokens.",
+  "frontend/src/App.tsx": "Root application component with TanStack Router setup, ThemeProvider, and route definitions for all pages (home, portfolio, badge detail, verification, mint).",
+  "frontend/src/pages/HomePage.tsx": "Landing page with hero section, feature cards showcasing Skill NFTs/verification/portfolio, and CTAs for authenticated/unauthenticated users.",
+  "frontend/src/components/layout/AppLayout.tsx": "Main layout wrapper with header, footer (caffeine.ai attribution), and ProfileSetupModal; wraps all pages via Outlet.",
+  "frontend/src/components/layout/AppHeader.tsx": "Sticky header with app logo, navigation links (Portfolio, Verify, Issue), user avatar dropdown, and LoginButton; shows different nav based on auth state.",
+  "frontend/src/components/auth/LoginButton.tsx": "Internet Identity login/logout button with loading states; clears React Query cache on logout.",
+  "frontend/src/components/auth/ProfileSetupModal.tsx": "Modal prompting first-time users to set up profile (name required, email/org optional); prevents flash by checking isFetched state.",
+  "frontend/src/components/auth/AccessDeniedScreen.tsx": "Access denied UI for unauthorized users attempting to access issuer-only mint page.",
+  "frontend/src/pages/StudentPortfolioPage.tsx": "Authenticated student portfolio page displaying grid of owned badges with loading/empty states; requires sign-in.",
+  "frontend/src/components/badges/BadgeCard.tsx": "Reusable badge card component with visual thumbnail, skill name, level, description, verified badge, and click-to-detail navigation.",
+  "frontend/src/pages/BadgeDetailPage.tsx": "Badge detail view showing full metadata, visual, verification status, and shareable verification link with copy/open actions.",
+  "frontend/src/pages/EmployerVerificationPage.tsx": "Public verification page accepting badge ID via form or URL param; displays verified badge details or not-found state.",
+  "frontend/src/pages/IssuerMintPage.tsx": "Admin-only page for issuing new badges with form validation, Principal ID input, skill details, and success feedback; shows AccessDeniedScreen for non-admins.",
+  "frontend/src/hooks/useCurrentUser.ts": "React Query hooks for fetching caller profile, saving profile, and checking admin status with proper actor dependency handling.",
+  "frontend/src/hooks/useBadges.ts": "React Query hooks for fetching caller's badges and individual badge by ID with proper caching and error handling.",
+  "frontend/src/hooks/useVerifyBadge.ts": "React Query mutation hook for verifying badge by ID; handles invalid badge ID format errors.",
+  "frontend/src/hooks/useIssueBadge.ts": "React Query mutation hook for issuing new badges; invalidates badge queries on success for immediate UI updates.",
+  "frontend/src/utils/format.ts": "Utility functions for formatting timestamps (nanoseconds to readable dates), Principals (shortened display), and badge IDs.",
+  "frontend/tailwind.config.js": "Tailwind configuration with Inter font family, extended color tokens matching OKLCH system, and custom design tokens."
+}

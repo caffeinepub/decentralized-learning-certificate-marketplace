@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Decentralized Learning Certificate Marketplace where students earn blockchain-based skill badges; includes Skill NFTs, employer verification, and a portfolio wallet.",
+  "architectural_notes": [
+    "Use blockchain to store/verify skill badge ownership and authenticity (Skill NFTs)."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Minimal app mark/logo, academic + blockchain motif, flat vector style (app-mark.dim_512x512.png)\n- Set of 6 flat vector badge icons (e.g., chip, network, database, shield, brain, code) with consistent style and transparent background (badge-icons-set.dim_1024x1024.png)\n- Single generic badge card background texture/pattern, subtle, warm neutral palette (badge-card-bg.dim_1600x900.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-internet-identity-sign-in-and-role-aware-navigation-for-two-user-types-students-who-earn-manage-skill-badges-and-employers-who-verify-student-badges",
+      "title": "Implement Internet Identity sign-in and role-aware navigation for two user types: Students (who earn/manage skill badges) and Employers (who verify student badges).",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-the-student-portfolio-wallet-ui-that-allows-a-signed-in-student-to-view-filter-and-open-details-for-their-skill-badges-and-to-share-a-verification-link-or-code-that-employers-can-use-to-verify-authenticity",
+      "title": "Build the Student Portfolio Wallet UI that allows a signed-in student to view, filter, and open details for their skill badges, and to share a verification link or code that employers can use to verify authenticity.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-employer-verification-flow-a-public-employer-accessible-page-where-an-employer-can-input-a-badge-id-or-open-a-shared-link-and-retrieve-verification-results-from-the-canister-including-whether-the-badge-exists-its-issuer-owner-and-issuance-timestamp",
+      "title": "Implement Employer Verification flow: a public/employer-accessible page where an employer can input a badge id (or open a shared link) and retrieve verification results from the canister, including whether the badge exists, its issuer, owner, and issuance timestamp.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-simple-admin-issuer-ui-accessible-only-to-authorized-issuers-to-mint-a-skill-badge-to-a-specified-student-principal-including-form-validation-and-success-error-feedback",
+      "title": "Add a simple admin/issuer UI (accessible only to authorized issuers) to mint a skill badge to a specified student Principal, including form validation and success/error feedback.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-coherent-visual-theme-for-the-app-distinct-style-consistent-typography-spacing-and-components-appropriate-for-an-education-credential-marketplace-avoid-blue-purple-as-primary-brand-colors",
+      "title": "Apply a coherent visual theme for the app (distinct style, consistent typography, spacing, and components) appropriate for an education + credential marketplace; avoid blue/purple as primary brand colors.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-and-include-static-image-assets-for-badge-visuals-and-a-simple-app-mark-store-them-under-frontend-public-assets-generated-and-use-them-in-the-ui-e-g-badge-thumbnails-and-app-header",
+      "title": "Generate and include static image assets for badge visuals and a simple app mark, store them under frontend/public/assets/generated, and use them in the UI (e.g., badge thumbnails and app header).",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Implement Skill NFTs to represent student-earned skill badges stored on blockchain",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Employer verification flow to validate authenticity of student skill certificates/NFTs",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Portfolio wallet for students to view/manage/share their skill NFTs and credentials",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Create backend data model and stable storage for on-chain skill badges (\"Skill NFTs\") issued to students, including: badge id, owner (Principal), skill name, issuer Principal, issue timestamp, optional metadata (description, level), and a verification status derived from stored data.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Add backend methods to issue (mint) a new skill badge to a student and to manage issuer permissions (who is allowed to mint), with safe defaults suitable for an MVP (e.g., canister controller/admin is initial issuer).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Decentralized Learning Certificate Marketplace",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

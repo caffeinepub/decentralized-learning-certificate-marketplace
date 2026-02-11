@@ -1,0 +1,102 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-08T16:28:10.505Z",
+  "summary": "Core frontend flows (II sign-in, portfolio/badge detail, employer verify, issuer mint UI) and a backend badge model with mint/verify/list methods were added. However, backend persistence/stable storage and the constraint to keep all backend logic in backend/main.mo (no extra backend modules) are not clearly satisfied, and several unrequested features (user profiles, secret-token admin initialization, extra endpoints) were introduced.",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Badges are stored persistently in the single Motoko actor (survive canister upgrades using stable variables or upgrade hooks).",
+      "reason": "The diff shows in-memory Maps and a mutable counter, but no stable variables and no preupgrade/postupgrade hooks to persist/restore state across upgrades.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Manage issuer permissions (who is allowed to mint), with safe defaults suitable for an MVP (e.g., canister controller/admin is initial issuer).",
+      "reason": "Minting is restricted to 'admin' but the diff does not show initialization of an initial admin/issuer based on canister controller or any explicit issuer management methods (add/remove issuer). It relies on access-control initialization that is not defined in the shown file.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Student Portfolio Wallet UI allows a signed-in student to view, filter, and open details for their skill badges.",
+      "reason": "Badge list and detail components/hooks exist, but the StudentPortfolioPage implementation is not included in the provided diff summary, so filtering capability cannot be confirmed from evidence shown.",
+      "evidence": [
+        "frontend/src/App.tsx (references StudentPortfolioPage)",
+        "frontend/src/hooks/useBadges.ts",
+        "frontend/src/components/badges/BadgeCard.tsx"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Generated images exist at frontend/public/assets/generated and are referenced directly by the frontend.",
+      "reason": "The UI references generated asset paths, but the diff summary does not show the actual image files added under frontend/public/assets/generated (they may be among omitted binary/non-LLM-readable files). Existence cannot be verified from provided evidence.",
+      "evidence": [
+        "frontend/src/components/layout/AppHeader.tsx",
+        "frontend/src/components/badges/BadgeCard.tsx",
+        "frontend/src/pages/BadgeDetailPage.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "User profile system (get/save user profiles) gated by a '#user' permission.",
+      "reason": "The BuildRequest does not request user profiles (name/email/organization) or profile setup flows.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/auth/ProfileSetupModal.tsx",
+        "frontend/src/hooks/useCurrentUser.ts",
+        "frontend/src/components/layout/AppHeader.tsx (uses userProfile)"
+      ]
+    },
+    {
+      "description": "Secret URL parameter-based admin/access-control initialization (caffeineAdminToken) invoked from the frontend actor setup.",
+      "reason": "The BuildRequest does not mention secret tokens, initializing admin via URL params, or any non-II mechanism for privilege bootstrapping.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts"
+      ]
+    },
+    {
+      "description": "Public endpoint to fetch all badges (getAllBadges).",
+      "reason": "Requirements only call for listing badges by owner and fetching by id for verification; listing all badges publicly is not requested.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    }
+  ],
+  "confidence": 0.66,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/AccessDeniedScreen.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/auth/ProfileSetupModal.tsx",
+    "frontend/src/components/badges/BadgeCard.tsx",
+    "frontend/src/components/layout/AppHeader.tsx",
+    "frontend/src/components/layout/AppLayout.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useBadges.ts",
+    "frontend/src/hooks/useCurrentUser.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useIssueBadge.ts",
+    "frontend/src/hooks/useVerifyBadge.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/BadgeDetailPage.tsx",
+    "frontend/src/pages/EmployerVerificationPage.tsx",
+    "frontend/src/pages/HomePage.tsx",
+    "frontend/src/pages/IssuerMintPage.tsx",
+    "frontend/src/pages/StudentPortfolioPage.tsx",
+    "frontend/src/utils/format.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

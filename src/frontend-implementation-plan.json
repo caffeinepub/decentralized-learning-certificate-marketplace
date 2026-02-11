@@ -1,0 +1,234 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Decentralized Learning Certificate Marketplace (Frontend)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add Internet Identity sign-in, profile setup, and role-aware navigation for Student and Employer flows.",
+      "acceptanceCriteria": [
+        "User can sign in using Internet Identity.",
+        "UI clearly offers entry points for Student and Employer flows after sign-in (e.g., tabs/pages), without requiring separate auth providers.",
+        "All user-facing text is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the root app shell that integrates Internet Identity session state (via existing hook) and provides role-aware navigation (Student/Employer). Use the selected authorization component patterns for login/logout and clearing cached queries on logout. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/routes.tsx",
+          "operation": "create",
+          "description": "Add route definitions for required flows (Student Portfolio, Badge Detail, Employer Verification, Issuer Mint) and wire them into the root app. Include a route guard for authenticated-only areas and a separate public route for employer verification."
+        },
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "create",
+          "description": "Implement a login/logout button using Internet Identity hook behavior and React Query cache clearing guidance from the selected authorization component. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/ProfileSetupModal.tsx",
+          "operation": "create",
+          "description": "Prompt first-time logged-in users to set up a user profile (name required) using getCallerUserProfile/saveCallerUserProfile patterns from the selected authorization component, avoiding modal flash per guidance. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCurrentUser.ts",
+          "operation": "create",
+          "description": "Create React Query hooks to load current identity-derived principal, caller role, and caller profile via the canister actor; handle authorization failures gracefully for UI consumption. Use the selected authorization component patterns for profile fetch/setup and role fetch. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/layout/AppHeader.tsx",
+          "operation": "create",
+          "description": "Create a header with app mark/logo, signed-in user display name (from profile), and navigation links to Student and Employer flows; compose existing shadcn/ui components without modifying immutable UI component sources."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Build Student Portfolio Wallet UI to list, filter, and view badge details, including shareable verification link/code.",
+      "acceptanceCriteria": [
+        "Student can see a list/grid of their badges loaded from the canister.",
+        "Student can open a badge detail view showing all stored metadata (skill name, issuer, issue time, id).",
+        "UI provides a shareable verification artifact (e.g., badge id and/or a copyable link containing the badge id) that an employer can use to verify."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/StudentPortfolioPage.tsx",
+          "operation": "create",
+          "description": "Create the authenticated Student Portfolio page that loads the signed-in student's badges from the canister (via actor) and renders list/grid + filter controls; compose existing UI components (no edits to immutable UI sources)."
+        },
+        {
+          "path": "frontend/src/pages/BadgeDetailPage.tsx",
+          "operation": "create",
+          "description": "Create an authenticated Badge Detail view that displays badge id, skill name, issuer, owner, issue timestamp, optional description/level, and verified status; include a copyable verification link/code that routes to the employer verification page with the badge id."
+        },
+        {
+          "path": "frontend/src/components/badges/BadgeCard.tsx",
+          "operation": "create",
+          "description": "Create a reusable badge card for list/grid rendering with thumbnail, skill name, and key metadata; use generated static badge visuals per REQ-8."
+        },
+        {
+          "path": "frontend/src/hooks/useBadges.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for loading the current student's badges and caching results; ensure queries are disabled until actor/identity are ready and errors are surfaced in English."
+        },
+        {
+          "path": "frontend/src/utils/format.ts",
+          "operation": "create",
+          "description": "Add formatting helpers for Principals (human-friendly display), timestamps, and badge ids, ensuring all user-facing text remains English."
+        },
+        {
+          "path": "frontend/src/routes.tsx",
+          "operation": "modify",
+          "description": "Wire Student Portfolio and Badge Detail routes into the app router and ensure navigation links exist from the role-aware entry points."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Implement an employer-accessible verification page to validate a badge id (via input or shared link) using canister data only.",
+      "acceptanceCriteria": [
+        "Employer can verify by entering a badge id and submitting.",
+        "If badge id is valid, the page displays verification details (exists, issuer Principal, owner Principal, issue timestamp, skill name).",
+        "If badge id is invalid/not found, the page shows a clear not-found state.",
+        "Verification uses only canister data (no external APIs)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/EmployerVerificationPage.tsx",
+          "operation": "create",
+          "description": "Create a public employer verification page that accepts a badge id, supports loading from URL query parameter, calls canister verification, and displays verified/not-found states using only canister data."
+        },
+        {
+          "path": "frontend/src/hooks/useVerifyBadge.ts",
+          "operation": "create",
+          "description": "Add a React Query hook/mutation to verify a badge id against the canister and return either the badge details or null; handle parsing errors (non-numeric/invalid bigint) with clear English messages."
+        },
+        {
+          "path": "frontend/src/routes.tsx",
+          "operation": "modify",
+          "description": "Register and wire the public Employer Verification route; ensure it is accessible without authentication and supports shared-link navigation."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Add an issuer/admin-only mint UI with validation and feedback, guarded by authorization-aware UI.",
+      "acceptanceCriteria": [
+        "Issuer can input student Principal and badge fields (skill name, optional description/level) and mint successfully.",
+        "Unauthorized users cannot access mint UI and/or mint attempts fail with a clear error message.",
+        "After minting, the badge appears in the target student’s portfolio list when they load/refresh."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/IssuerMintPage.tsx",
+          "operation": "create",
+          "description": "Create an issuer/admin-only mint page with form inputs (student principal, skill name, optional description/level), client-side validation, and success/error feedback; guard access using caller role/admin checks per selected authorization component guidance. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/AccessDeniedScreen.tsx",
+          "operation": "create",
+          "description": "Create an access denied UI for unauthorized users attempting to open issuer-only areas, following the selected authorization component's Access Control UI guidance. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useIssueBadge.ts",
+          "operation": "create",
+          "description": "Add a React Query mutation hook to call the canister mint capability and return the newly issued badge id; on success, invalidate/refetch relevant badge queries so students can see newly minted badges after refresh."
+        },
+        {
+          "path": "frontend/src/routes.tsx",
+          "operation": "modify",
+          "description": "Register and wire the Issuer Mint route and apply an authorization-aware guard/wrapper so only authorized issuers/admins can access the UI."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Apply a cohesive education/credential theme using Tailwind and composed UI components, avoiding blue/purple primary colors.",
+      "acceptanceCriteria": [
+        "All primary pages (Student Portfolio, Badge Detail, Employer Verification, Issuer Mint) share a consistent layout and component styling.",
+        "Primary color palette does not use blue/purple as the main brand colors.",
+        "UI uses Tailwind + existing UI components via composition (no edits to immutable UI component sources)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Define global theme tokens (CSS variables used by Tailwind/shadcn) with a warm neutral + green/amber primary palette (avoiding blue/purple as primary), and set consistent typography/spacing defaults."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Ensure Tailwind theme extensions support the chosen warm neutral palette and consistent typography/spacing; keep configuration aligned with CSS variables and existing shadcn setup."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "create",
+          "description": "Create a shared layout wrapper used by all primary pages to enforce consistent spacing, typography, and composed UI components (without modifying immutable UI component sources)."
+        },
+        {
+          "path": "frontend/src/pages/StudentPortfolioPage.tsx",
+          "operation": "modify",
+          "description": "Adopt the shared AppLayout and apply consistent composed component styling (cards, headings, spacing) aligned to the global theme."
+        },
+        {
+          "path": "frontend/src/pages/BadgeDetailPage.tsx",
+          "operation": "modify",
+          "description": "Adopt the shared AppLayout and apply consistent composed component styling aligned to the global theme."
+        },
+        {
+          "path": "frontend/src/pages/EmployerVerificationPage.tsx",
+          "operation": "modify",
+          "description": "Adopt the shared AppLayout and apply consistent composed component styling aligned to the global theme."
+        },
+        {
+          "path": "frontend/src/pages/IssuerMintPage.tsx",
+          "operation": "modify",
+          "description": "Adopt the shared AppLayout and apply consistent composed component styling aligned to the global theme."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Add generated static image assets for badge visuals and app mark and reference them in the UI.",
+      "acceptanceCriteria": [
+        "Generated images exist at frontend/public/assets/generated and are referenced directly by the frontend (not served from the backend).",
+        "Badge list shows a thumbnail/icon for each badge type (or a default badge image if no mapping).",
+        "App header/landing includes the generated app mark/logo."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/app-mark.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated static image asset: frontend/public/assets/generated/app-mark.dim_512x512.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/badge-icons-set.dim_1024x1024.png",
+          "operation": "create",
+          "description": "Add the generated static image asset: frontend/public/assets/generated/badge-icons-set.dim_1024x1024.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/badge-card-bg.dim_1600x900.png",
+          "operation": "create",
+          "description": "Add the generated static image asset: frontend/public/assets/generated/badge-card-bg.dim_1600x900.png."
+        },
+        {
+          "path": "frontend/src/components/layout/AppHeader.tsx",
+          "operation": "modify",
+          "description": "Reference the generated app mark/logo at frontend/public/assets/generated/app-mark.dim_512x512.png in the header UI."
+        },
+        {
+          "path": "frontend/src/components/badges/BadgeCard.tsx",
+          "operation": "modify",
+          "description": "Reference the generated badge icon set at frontend/public/assets/generated/badge-icons-set.dim_1024x1024.png as the default badge thumbnail (and/or simple skill-to-icon mapping) within badge cards."
+        },
+        {
+          "path": "frontend/src/pages/BadgeDetailPage.tsx",
+          "operation": "modify",
+          "description": "Reference the generated badge card background image at frontend/public/assets/generated/badge-card-bg.dim_1600x900.png to visually theme badge details (as a subtle background element)."
+        }
+      ]
+    }
+  ]
+}
